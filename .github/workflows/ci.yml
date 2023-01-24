@@ -1,0 +1,87 @@
+name: Dev build CI
+
+on:
+  push:
+    paths-ignore:
+      - 'README**'
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+    paths-ignore:
+      - 'README**'
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+  checks: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        #python-versions: ['3.7', '3.8', '3.9', '3.10']
+        python-versions: ['3.9', '3.10']
+        os: [ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
+    # map step outputs to job outputs so they can be share among jobs
+    outputs:
+      package_version: ${{ env.PACKAGE_VERSION }}
+      package_name: ${{ env.PACKAGE_NAME }}
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-versions }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+        # pip install tox tox-gh-actions poetry
+
+      - name: Declare variables for convenient use
+        id: variables_step
+        run: |
+          poetry version $(poetry version --short)-dev.$GITHUB_RUN_NUMBER
+          echo "PACKAGE_NAME=$(poetry version | awk '{print $1}')" >> $GITHUB_ENV
+          echo "PACKAGE_VERSION=$(poetry version --short)" >> $GITHUB_ENV
+        shell: bash
+
+      - name: build
+        run: |
+          ./build.sh
+
+      - name: Build wheels and source tarball
+        run: |
+          poetry lock
+          poetry build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        if: matrix.python-versions == '3.10'
+        with:
+          name: ${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}
+          path: dist/*.tar.gz
+          if-no-files-found: error
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        if: matrix.python-versions == '3.10'
+        with:
+          name: Coverage
+          path: htmlcov
+          if-no-files-found: error
+
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: Test Results (${{ matrix.python-versions }})
+          path: 'test-results.xml'
+          reporter: java-junit
