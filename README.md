@@ -20,6 +20,15 @@ This repository demonstrates an opinionated setup for a python command line app.
 - One click to package the app into the /dist folder: `./pack.sh`
 - One click to run the tests and package the app across multiple versions of python 3.9, 3.10, 3.11 etc: `./build-all.sh`
 
+## How to install and use the tool
+
+See `install.sh`.
+
+- Download the tar from the GitHub Actions build artifacts (could also use the wheel (.whl) if you prefer)
+- Install pipx (not required but this ensures the tool is installed in it's own environment and dependencies cannot make a mess of your system)
+- [Install it with pipx](https://pypa.github.io/pipx/docs/#pipx-install) `pipx install --python some-version path-to-tar` (or with pip if you must).
+- Run `demo hello world` on the command line to check it installed ok
+
 ## IDE, Docker, Python
 
 The app uses VS code with docker the devcontainers feature to setup a python environment with all tools preinstalled. All you need is vscode and docker to be able develop.
