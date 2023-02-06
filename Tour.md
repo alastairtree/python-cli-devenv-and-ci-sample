@@ -20,9 +20,10 @@ This has opend the folder, Opened VS code. Now follow the prompt to reopen in de
 Now run the app:
 
 Open a terminal (CTRL + ').
-Note how automatically you are in a python venv!
 
 ```
+poetry shell
+poetry install
 demo --help
 ```
 
@@ -70,7 +71,7 @@ def goodbye(
 
 ## Poetry - dependencies and builds
 
-Our demo app is built on top of open source packages. List them using `poetry show` and see details in [pyproject.toml](pyproject.toml). New packages can easily be installed e.g. `poerty add numpy` - see your pyproject and lock files have been updated. Everyone else also gets the same packages because the manifest is checked in and they are distributed with the package when you share the tarball.
+Our demo app is built on top of open source packages. List them using `poetry show` and see details in [pyproject.toml](pyproject.toml). New packages can easily be installed e.g. `poetry add numpy` - see your pyproject and lock files have been updated. Everyone else also gets the same packages because the manifest is checked in and they are distributed with the package when you share the tarball.
 
 Look at the /dist folder after you build:
 
