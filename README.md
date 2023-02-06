@@ -76,34 +76,9 @@ Code coverage data is generated on build into the folder `htmlcov`
 
 The `.github/workflows/ci.yml` define a workflow to run on build and test the CLI against multiple versions of python. Build artifacts are generated and a copy of the cli app is available for download for every build
 
-## Using different python versions python
+## Want to know more?
 
-the dockerfile installs pyenv and a few python version for you automatically.
-
-List the versions:
-
-```
-pyenv versions
-```
-
-And change to a different version of python easily
-
-```bash
-# configure the local folder and poetry to use 3.10, restore dependencies and run the app
-pyenv local 3.10
-poetry env use python3.10
-python3 --version
-poetry install
-poetry run demo hello world
-
-# configure the local folder and poetry to use 3.11, restore dependencies and run the app
-pyenv local 3.11
-poetry env use python3.11
-python3 --version
-poetry install
-poetry run demo hello world
-```
-
+Check out the [Tour](Tour.md)
 
 ## Troubleshooting
 
