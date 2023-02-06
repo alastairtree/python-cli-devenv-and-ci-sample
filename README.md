@@ -2,7 +2,7 @@
 
 This repository demonstrates an opinionated setup for a python command line app. It shows how to
 
-- configures the VS Code IDE for east python3 based development, including testing and linting
+- configure the VS Code IDE for easy  python3 based development, including testing and linting
 - a docker based development environment
 - package management and python version tooling
 - continuous integration using GitHub including unit tests and code coverage
