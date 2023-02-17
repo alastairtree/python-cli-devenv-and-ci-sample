@@ -8,7 +8,7 @@ Open a WSL prompt and note your python version for later `python3 --version`
 
 Now clone the repository inside WSL into a work folder. I typically start dev code work in /projects:
 
-```
+```bash
 cd /projects
 git clone git@github.com:alastairtree/python-cli-devenv-and-ci-sample.git
 cd python-cli-devenv-and-ci-sample
@@ -21,7 +21,7 @@ Now run the app:
 
 Open a terminal (CTRL + ').
 
-```
+```bash
 poetry shell
 poetry install
 demo --help
@@ -51,7 +51,7 @@ Now look at the code in [main.py](src/main.py). See how simple this is? no argum
 
 You can also use Typer Options con control command line args:
 
-```
+```python
 @app.command()
 def goodbye(name: str, formal: bool = False):
 
@@ -93,20 +93,29 @@ Look at [test_main.py](tests/test_main.py). The test tooling in VS code is also 
 We also get code coverage information - run the the build script [build.sh](build.sh) and then open the results in a web browser
 
 from WSL (not vscode terminal!), open the html file in windows:
-```
+
+```bash
 sensible-browser htmlcov/index.html
 ```
 
 ## Using different versions of python
 
-At the start you noted the version of python on your machine. We probably want to develop with a newer version - so we develop inside a docker container. We also want to be backwards conpatible with other versions so we can share with others on different versions.
+At the start you noted the version of python on your machine. We probably want to develop with a newer version - so we develop inside a docker container. We also want to be backwards compatible with other versions so we can share with others on different versions.
 
 The dockerfile installs pyenv and several python version for you automatically. You can add more easily by changing the docker file and rebuilding.
 
 List the versions installed inside the docker container:
 
-```
+```bash
 pyenv versions
+```
+
+You can use different versions installed directly:
+
+```bash
+python3 --version
+python3.9 -c "print('hello')"
+python3.11 -c "print('world')"
 ```
 
 You can change to a different version of python easily to check it works for a different version, and avoids messing up the python on your (wsl) host.
@@ -141,7 +150,7 @@ poetry install
 
 Also check out the build script: it builds multiple versions automatically:
 
-```
+```bash
 ./build-all.sh
 # look in /dist folder - one folder per version automatically
 ```
